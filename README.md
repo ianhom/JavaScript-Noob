@@ -1,0 +1,2 @@
+# JavaScript-Noob
+Learn JavaScript

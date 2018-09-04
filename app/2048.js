@@ -1,8 +1,8 @@
-var arrOri    = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-var arrTempI  = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-var arrTempS  = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-var arrRedo   = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-var arrRTT    = [[0,2,4,8],[16,32,64,128],[256,512,1024,1024],[1024,1024,1024,1024]];
+var arrOri    = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];  // Orignal array of the data
+var arrTempI  = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];  // Inverted array of the data
+var arrTempS  = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];  // Spanned array of the data
+var arrRedo   = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];  // Old array of the data for REDO operation
+var arrRTT    = [[0,2,4,8],[16,32,64,128],[256,512,1024,1024],[1024,1024,1024,1024]];  // Test data
 var Score     = 0;
 var ScoreRedo = 0;
 var Res       = 0; //1=win,2=lose;

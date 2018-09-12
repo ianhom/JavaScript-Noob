@@ -1,6 +1,6 @@
 var p = -470;
 var q = 0;
-var page = {
+var page = { 
     data : {timer1 : 0, timer2 : 0},
     onbutton: function(e)
     {
@@ -43,12 +43,10 @@ var page = {
                 {
                     thiz.setData({listctrl2 : {position : {x:19,y:p}}})
                     thiz.setData({listctrl2 : {refresh:true}})
-                    //thiz.setData({page2: {refresh:true}})
+
                     p += 16;
                 }, 10);
            
-                this.setData({label2 : {position : {x:268,y:79},refresh:true}})
-                this.setData({page3: {refresh:true}})
 
                 break;
             case "button13":
@@ -66,12 +64,9 @@ var page = {
                 {
                     thiz.setData({listctrl2 : {position : {x:19,y:q}}})
                     thiz.setData({listctrl2 : {refresh:true}})
-                    //thiz.setData({page2: {refresh:true}})
                     q -= 16;
                 }, 10);
            
-                this.setData({label2 : {position : {x:268,y:79},refresh:true}})
-                this.setData({page3: {refresh:true}})
 
                 break;
         }      

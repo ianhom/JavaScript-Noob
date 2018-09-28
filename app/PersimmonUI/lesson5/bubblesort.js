@@ -14,7 +14,7 @@ var page = {
            thiz.bubblesort();
            
            thiz.display();
-        }, 100);
+        }, 50);
         this.display()
     },
 
@@ -23,6 +23,12 @@ var page = {
         var temp = 0;
         if(i >= 11)
         {
+            i = 0;
+            j = 0;
+            for(var k = 0; k < 12; k++)
+            {
+                data[k] = Math.floor(Math.random()*100+1)
+            }
             return;
         }
         else

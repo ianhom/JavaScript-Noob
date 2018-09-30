@@ -1,12 +1,18 @@
-var data = [ 45, 30, 40, 50, 32, 56, 12, 34, 21, 23, 13, 46 ];  //柱形图数据
 var date = ['2018-09-29','2018-09-30','2018-10-01']
 var code = ['Sunny','Cloudy','Snowy']
+var CODE = ['Sunny','Cloudy','Snowy']
+var wind_s = ['20','10','30']
+var wind_l = ['2','1','3']
+var wind_d = ['W','E','N']
 var high = [0, 0, 0]
 var low  = [0, 0, 0]
 var high1 = [25, 26, 24]
 var low1  = [15, 10, 17]
+
 var DISTANCE = 110
+
 var jsons = '{"results":[{"location":{"id":"WX4FBXXFKE4F","name":"Beijing","country":"CN","path":"Beijing,Beijing,China","timezone":"Asia/Shanghai","timezone_offset":"+08:00"},"daily":[{"date":"2018-09-30","text_day":"Cloudy","code_day":"4","text_night":"Cloudy","code_night":"4","high":"19","low":"13","precip":"","wind_direction":"NW","wind_direction_degree":"315","wind_speed":"20","wind_scale":"4"},{"date":"2018-10-01","text_day":"Sunny","code_day":"0","text_night":"Sunny","code_night":"1","high":"24","low":"12","precip":"","wind_direction":"N","wind_direction_degree":"0","wind_speed":"20","wind_scale":"4"},{"date":"2018-10-02","text_day":"Sunny","code_day":"0","text_night":"Sunny","code_night":"1","high":"24","low":"11","precip":"","wind_direction":"N","wind_direction_degree":"0","wind_speed":"10","wind_scale":"2"}],"last_update":"2018-09-30T11:00:00+08:00"}]}'
+var json_obj = JSON.parse(jsons)
 
 var s1 = 'https://api.seniverse.com/v3/weather/daily.json?key=hfvxxp7oq0w4dmso&location='
 var city = 'beijing'
@@ -15,20 +21,23 @@ var day = '0'
 var s3 = '&days=3'
 var url_w = s1+city+s2+day+s3
 
-var xx = 1;
-var xx1 = 1;
 var i = 0;
 var j = 0;
 var page = {
     dataa : {timer1 : 0},
-    onBtn : function()
+    
+    onBtn : function(e)
     {
-        this.onUpdate()
-        this.getTemp()
-        for(var k = 0; k < high.length; k++)
+        if(e.target.id == 'new')
         {
-            high[k] = 0;
-            low[k]  = 0;
+            this.getRndW()
+        }
+        else
+        {
+            city = e.target.id
+            console.log(city)
+            this.onUpdate()
+            //this.getSkyInfo()
         }
     },
     onLoad : function()
@@ -47,18 +56,29 @@ var page = {
                     low[k]  += Math.round(low1[k]/10)
                 }
             }
+            if(i == 100)
+            {
+                thiz.onUpdate()
+                //thiz.getSkyInfo()
+                i = 0;
+            }
+            i++
             
             thiz.display();
         }, 50);
         this.display()
     },
     
-    getTemp : function()
+    getRndW : function()
     {
         for(var k = 0; k < high.length; k++)
         {
+            high[k] = 0;
+            low[k]  = 0;
             high1[k] = Math.floor(Math.random()*5+20)
             low1[k]  = Math.floor(Math.random()*5+10)
+            code[k]  = CODE[Math.floor(Math.random()*3)]
+            console.log(code[k])
         }
     },
 
@@ -207,15 +227,18 @@ var page = {
         }
     },
     onUpdate : function(){		//根据json_obj中的数据，来设定对应Label的值
-        //str = '{"sk_info":{"date":"20131012","cityName":"123","areaID":"101010100","temp":"21","tempF":"69.8","wd":"3","ws":"33","sd":"39%","time":"15:10","sm":"3"}}'
-		//json_obj = JSON.parse(str)
-		console.log(json_obj.results[0].daily[0].date)
-		//console.log(json_obj.results[0].daily[1].date)
-		//console.log(json_obj.results[0].daily[2].date)
-		//this.onSetDate(json_obj.sk_info.date);
-//		this.setData({temp : {value : json_obj.sk_info.temp , refresh : true}});
-//		this.setData({wind : {value : json_obj.sk_info.wd , refresh : true}});
-
+        for(var i = 0; i < 3; i++){
+            high[i]   = 0;
+            low[i]    = 0;
+            date[i]   = json_obj.results[0].daily[i].date
+            code[i]   = json_obj.results[0].daily[i].text_day
+            high1[i]  = json_obj.results[0].daily[i].high
+            low1[i]   = json_obj.results[0].daily[i].low
+            wind_d[i] = json_obj.results[0].daily[i].wind_direction
+            wind_s[i] = json_obj.results[0].daily[i].wind_speed
+            wind_l[i] = json_obj.results[0].daily[i].wind_scale
+            console.log(wind_d[i],wind_s[i],wind_l[i])
+        }
 	},
     
     getSkyInfo: function(e) {

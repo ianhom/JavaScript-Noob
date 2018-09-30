@@ -4,3 +4,5 @@
 - gettext.js : http request 获取rtt文本
 - weather.js : http request 获取天气
 - bubblesort.js : 冒泡排序的动图展示
+- page1.js : 天气预报作业
+- app.js : 天气预报作业

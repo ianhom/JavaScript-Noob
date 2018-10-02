@@ -246,7 +246,7 @@ var page = {
 	var str =0;
 	
 	var rq1 = pm.request({
-	    url: url_w, // 获取天气预报的API，返回伪数据
+	    url: url_w, // 获取天气预报的API
 		method : 'GET',
 		header:{
 			"Content-Type":"application/json"

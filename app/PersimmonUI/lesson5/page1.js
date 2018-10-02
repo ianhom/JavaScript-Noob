@@ -1,4 +1,6 @@
 var date = ['2018-09-29','2018-09-30','2018-10-01']
+var CITIES = ['beijing','shanghai','guangzhou','nanjing','new']
+var City_name = 'Beijing'
 var code = ['Sunny','Cloudy','Snowy']
 var CODE = ['Sunny','Cloudy','Snowy']
 var wind_s = ['20','10','30']
@@ -21,29 +23,23 @@ var day = '0'
 var s3 = '&days=3'
 var url_w = s1+city+s2+day+s3
 
+var ctx_1 = ' Temperature:'
+var ctx_2 = '~'
+var ctx_3 = ' Wind Speed:'
+var ctx_4 = ' Wind Direction:'
+var ctx_5 = ' Wind Scale: '
+var ctx_0 = ' Date:'
 var i = 0;
 var j = 0;
+var dly = 0;
 var page = {
+
     dataa : {timer1 : 0},
     
-    onBtn : function(e)
-    {
-        if(e.target.id == 'new')
-        {
-            this.getRndW()
-        }
-        else
-        {
-            city = e.target.id
-            console.log(city)
-            this.onUpdate()
-            //this.getSkyInfo()
-        }
-    },
     onLoad : function()
     {
         var thiz = this;
-        var i = 0;
+        
         // Register a timer callback function
         this.dataa.timer1 = setInterval(function()
         {  
@@ -56,17 +52,18 @@ var page = {
                     low[k]  += Math.round(low1[k]/10)
                 }
             }
-            if(i == 100)
+            if(dly == 100)
             {
                 thiz.onUpdate()
                 //thiz.getSkyInfo()
-                i = 0;
+                dly = 0;
             }
-            i++
+            dly++
             
             thiz.display();
         }, 50);
         this.display()
+        this.onUpdate()
     },
     
     getRndW : function()
@@ -78,7 +75,6 @@ var page = {
             high1[k] = Math.floor(Math.random()*5+20)
             low1[k]  = Math.floor(Math.random()*5+10)
             code[k]  = CODE[Math.floor(Math.random()*3)]
-            console.log(code[k])
         }
     },
 
@@ -230,6 +226,8 @@ var page = {
         for(var i = 0; i < 3; i++){
             high[i]   = 0;
             low[i]    = 0;
+            City_name = json_obj.results[0].location.name
+            console.log(city)
             date[i]   = json_obj.results[0].daily[i].date
             code[i]   = json_obj.results[0].daily[i].text_day
             high1[i]  = json_obj.results[0].daily[i].high
@@ -237,7 +235,11 @@ var page = {
             wind_d[i] = json_obj.results[0].daily[i].wind_direction
             wind_s[i] = json_obj.results[0].daily[i].wind_speed
             wind_l[i] = json_obj.results[0].daily[i].wind_scale
-            console.log(wind_d[i],wind_s[i],wind_l[i])
+            //console.log(wind_d[i],wind_s[i],wind_l[i])
+            var ctx  = city+ctx_1+low1[0]+ctx_2+high1[0]+ctx_0+date[0]
+            var ctxw = ctx_3+wind_s[0]+ctx_4+wind_d[0]+ctx_5+wind_s[0]
+            this.setData({label1: { value : ctx , refresh : true}});
+            this.setData({label2: { value : ctxw, refresh : true}});
         }
 	},
     
@@ -260,6 +262,24 @@ var page = {
 			console.log('request failed')
 		}
 		});
+	},
+	
+	
+	onChange : function(e){
+	    console.log(e.detail.value)
+	    console.log(CITIES[e.detail.value])
+	    dly = 0;
+	    
+	    if(CITIES[e.detail.value] == 'new')
+        {
+            this.getRndW()
+        }
+        else
+        {
+            city = CITIES[e.detail.value]
+            this.onUpdate()
+            //this.getSkyInfo()
+        }
 	}
 };
 

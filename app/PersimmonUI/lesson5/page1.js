@@ -3,6 +3,7 @@ var CITIES = ['beijing','shanghai','guangzhou','nanjing','new']
 var City_name = 'Beijing'
 var code = ['Sunny','Cloudy','Snowy']
 var CODE = ['Sunny','Cloudy','Snowy']
+var DIRECTION = ['N','E','W','S','NE','NW','SE','SW']
 var wind_s = ['20','10','30']
 var wind_l = ['2','1','3']
 var wind_d = ['W','E','N']
@@ -23,7 +24,7 @@ var day = '0'
 var s3 = '&days=3'
 var url_w = s1+city+s2+day+s3
 
-var ctx_1 = ' Temperature:'
+var ctx_1 = ' Temp:'
 var ctx_2 = '~'
 var ctx_3 = ' Wind Speed:'
 var ctx_4 = ' Wind Direction:'
@@ -54,8 +55,8 @@ var page = {
             }
             if(dly == 100)
             {
-                thiz.onUpdate()
-                //thiz.getSkyInfo()
+                //thiz.onUpdate()
+                thiz.getSkyInfo()
                 dly = 0;
             }
             dly++
@@ -75,6 +76,13 @@ var page = {
             high1[k] = Math.floor(Math.random()*5+20)
             low1[k]  = Math.floor(Math.random()*5+10)
             code[k]  = CODE[Math.floor(Math.random()*3)]
+            wind_s[k]  = Math.floor(Math.random()*20)
+            wind_l[k]  = Math.floor(Math.random()*10)
+            wind_d[k]  = DIRECTION[Math.floor(Math.random()*8)]
+            var ctx  = 'Zootopia'+' '+code[0]+ctx_1+low1[0]+ctx_2+high1[0]+ctx_0+date[0]
+            var ctxw = ctx_3+wind_s[0]+ctx_4+wind_d[0]+ctx_5+wind_l[0]
+            this.setData({label1: { value : ctx , refresh : true}});
+            this.setData({label2: { value : ctxw, refresh : true}});
         }
     },
 
@@ -190,7 +198,6 @@ var page = {
             context.moveTo(x, 380)
             context.beginPath();
             context.setStrokeStyle('#FF6969FF')
-            //context.setLineWidth(2)        //设置线条宽度 
             for( index = 0; index < low.length; index++ )
             {
                 var x = 60 + DISTANCE/2 + index * DISTANCE;
@@ -227,7 +234,6 @@ var page = {
             high[i]   = 0;
             low[i]    = 0;
             City_name = json_obj.results[0].location.name
-            console.log(city)
             date[i]   = json_obj.results[0].daily[i].date
             code[i]   = json_obj.results[0].daily[i].text_day
             high1[i]  = json_obj.results[0].daily[i].high
@@ -235,9 +241,8 @@ var page = {
             wind_d[i] = json_obj.results[0].daily[i].wind_direction
             wind_s[i] = json_obj.results[0].daily[i].wind_speed
             wind_l[i] = json_obj.results[0].daily[i].wind_scale
-            //console.log(wind_d[i],wind_s[i],wind_l[i])
-            var ctx  = city+ctx_1+low1[0]+ctx_2+high1[0]+ctx_0+date[0]
-            var ctxw = ctx_3+wind_s[0]+ctx_4+wind_d[0]+ctx_5+wind_s[0]
+            var ctx  = city+' '+code[0]+ctx_1+low1[0]+ctx_2+high1[0]+ctx_0+date[0]
+            var ctxw = ctx_3+wind_s[0]+ctx_4+wind_d[0]+ctx_5+wind_l[0]
             this.setData({label1: { value : ctx , refresh : true}});
             this.setData({label2: { value : ctxw, refresh : true}});
         }
@@ -277,8 +282,8 @@ var page = {
         else
         {
             city = CITIES[e.detail.value]
-            this.onUpdate()
-            //this.getSkyInfo()
+            //this.onUpdate()
+            this.getSkyInfo()
         }
 	}
 };

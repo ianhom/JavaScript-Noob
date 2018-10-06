@@ -1,3 +1,4 @@
+var date = ['2018-09-29','2018-09-30','2018-10-01']
 var CITIES = ['beijing','shanghai','guangzhou','nanjing','new']
 var City_name = 'Beijing'
 var code = ['Sunny','Cloudy','Snowy']
@@ -259,7 +260,7 @@ var page = {
             wind_d[i] = json_obj.results[0].daily[i].wind_direction
             wind_s[i] = json_obj.results[0].daily[i].wind_speed
             wind_l[i] = json_obj.results[0].daily[i].wind_scale
-            var ctx  = city+' '+code[0]+ctx_1+low1[0]+ctx_2+high1[0]+ctx_0+date[0]
+            var ctx  = City_name+' '+code[0]+ctx_1+low1[0]+ctx_2+high1[0]+ctx_0+date[0]
             var ctxw = ctx_3+wind_s[0]+ctx_4+wind_d[0]+ctx_5+wind_l[0]
             this.setData({label1: { value : ctx , refresh : true}});
             this.setData({label2: { value : ctxw, refresh : true}});

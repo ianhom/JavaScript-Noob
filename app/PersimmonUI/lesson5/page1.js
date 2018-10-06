@@ -1,4 +1,3 @@
-var date = ['2018-09-29','2018-09-30','2018-10-01']
 var CITIES = ['beijing','shanghai','guangzhou','nanjing','new']
 var City_name = 'Beijing'
 var code = ['Sunny','Cloudy','Snowy']
@@ -17,7 +16,7 @@ var DISTANCE = 110
 var jsons = '{"results":[{"location":{"id":"WX4FBXXFKE4F","name":"Beijing","country":"CN","path":"Beijing,Beijing,China","timezone":"Asia/Shanghai","timezone_offset":"+08:00"},"daily":[{"date":"2018-09-30","text_day":"Cloudy","code_day":"4","text_night":"Cloudy","code_night":"4","high":"19","low":"13","precip":"","wind_direction":"NW","wind_direction_degree":"315","wind_speed":"20","wind_scale":"4"},{"date":"2018-10-01","text_day":"Sunny","code_day":"0","text_night":"Sunny","code_night":"1","high":"24","low":"12","precip":"","wind_direction":"N","wind_direction_degree":"0","wind_speed":"20","wind_scale":"4"},{"date":"2018-10-02","text_day":"Sunny","code_day":"0","text_night":"Sunny","code_night":"1","high":"24","low":"11","precip":"","wind_direction":"N","wind_direction_degree":"0","wind_speed":"10","wind_scale":"2"}],"last_update":"2018-09-30T11:00:00+08:00"}]}'
 var json_obj = JSON.parse(jsons)
 
-var s1 = 'https://api.seniverse.com/v3/weather/daily.json?key=hfvxxp7oq0w4dmso&location='
+var s1 = 'http://api.seniverse.com/v3/weather/daily.json?key=hfvxxp7oq0w4dmso&location='
 var city = 'beijing'
 var s2 = '&language=en&unit=c&start='
 var day = '0'
@@ -33,6 +32,8 @@ var ctx_0 = ' Date:'
 var i = 0;
 var j = 0;
 var dly = 0;
+var ani_flg = 0;
+
 var page = {
 
     dataa : {timer1 : 0},
@@ -44,24 +45,40 @@ var page = {
         // Register a timer callback function
         this.dataa.timer1 = setInterval(function()
         {  
-            for(var k = 0; k < high.length; k++)
+            if((ani_flg & 0x0F) == 0)
             {
-                if(high[k] <  high1[k]){
-                    high[k] += Math.round(high1[k]/10)
+                for(var k = 0; k < high.length; k++)
+                {
+                    if(high[k] <  high1[k]){
+                        high[k] += Math.round(high1[k]/5)
+                    }
+                    else
+                    {
+                        ani_flg |= 0x10;
+                    }
+                    if(low[k] < low1[k]){
+                        low[k]  += Math.round(low1[k]/5)
+                    }
+                    else
+                    {
+                        ani_flg |= 0x20;
+                    }
                 }
-                if(low[k] < low1[k]){
-                    low[k]  += Math.round(low1[k]/10)
+                        
+                thiz.display();
+                if((ani_flg & 0xF0) == 0x30)
+                {
+                    ani_flg = 0xFF;
+                    console.log("hhhhhhhhhhhhh")
                 }
             }
-            if(dly == 100)
+            if(dly == 10000)
             {
                 //thiz.onUpdate()
                 thiz.getSkyInfo()
                 dly = 0;
             }
             dly++
-            
-            thiz.display();
         }, 50);
         this.display()
         this.onUpdate()
@@ -83,6 +100,7 @@ var page = {
             var ctxw = ctx_3+wind_s[0]+ctx_4+wind_d[0]+ctx_5+wind_l[0]
             this.setData({label1: { value : ctx , refresh : true}});
             this.setData({label2: { value : ctxw, refresh : true}});
+            ani_flg = 0;
         }
     },
 
@@ -92,7 +110,7 @@ var page = {
 
          if (context)
         {
-            var max = 35;
+            var max = 36;
 
             for(var j = 0; j < 3; j++)
             {
@@ -245,13 +263,15 @@ var page = {
             var ctxw = ctx_3+wind_s[0]+ctx_4+wind_d[0]+ctx_5+wind_l[0]
             this.setData({label1: { value : ctx , refresh : true}});
             this.setData({label2: { value : ctxw, refresh : true}});
+            ani_flg = 0;
         }
 	},
     
     getSkyInfo: function(e) {
 	var thiz = this;
 	var str =0;
-	
+	url_w = s1+city+s2+day+s3
+	console.log(url_w)
 	var rq1 = pm.request({
 	    url: url_w, // 获取天气预报的API
 		method : 'GET',

@@ -32,7 +32,7 @@ var ctx_5 = ' Wind Scale: '
 var ctx_0 = ' Date:'
 var i = 0;
 var j = 0;
-var dly = 0;
+var dly = 195;
 var ani_flg = 0;
 
 var page = {
@@ -42,7 +42,7 @@ var page = {
     onLoad : function()
     {
         var thiz = this;
-        
+
         // Register a timer callback function
         this.dataa.timer1 = setInterval(function()
         {  
@@ -70,10 +70,9 @@ var page = {
                 if((ani_flg & 0xF0) == 0x30)
                 {
                     ani_flg = 0xFF;
-                    console.log("hhhhhhhhhhhhh")
                 }
             }
-            if(dly == 10000)
+            if(dly >= 200)
             {
                 //thiz.onUpdate()
                 thiz.getSkyInfo()
@@ -81,8 +80,9 @@ var page = {
             }
             dly++
         }, 50);
+        this.getSkyInfo();
         this.display()
-        this.onUpdate()
+        //this.onUpdate()
     },
     
     getRndW : function()

@@ -50,7 +50,8 @@ var page = {
             {
                 for(var k = 0; k < high.length; k++)
                 {
-                    if(high[k] <  high1[k]){
+                    if(high[k] <  high1[k])
+		    {
                         high[k] += Math.round(high1[k]/5)
                     }
                     else
@@ -138,7 +139,7 @@ var page = {
             context.beginPath();                //开启新路径
             context.setStrokeStyle('#C0C0C0')   //设置边框颜色
 
-            for( index = 1; index <= 3; index++ )
+            for( index = 1; index <= 3; index++)
             {
                 var y = 380;
                 context.moveTo(60 + index * DISTANCE, y)                   //线条起点
@@ -155,7 +156,7 @@ var page = {
             context.fillText('Temperature', 5, 5)    //绘制文字，坐标（5，5）
 
             context.setTextBaseline('middle')         //设置文本绘制纵坐标对齐方式
-            for( index = 0; index < 7; index++ )
+            for( index = 0; index < 7; index++)
             {
                 var y = 30 + index * 50;
                 var value = max * (7 - index);
@@ -200,7 +201,7 @@ var page = {
             context.setLineCap('round')
             context.setStrokeStyle('#FFFF6969')
             context.setLineWidth(4)        //设置线条宽度          
-            for( index = 0; index < high.length; index++ )
+            for( index = 0; index < high.length; index++)
             {
                 var x = 60 + DISTANCE/2 + index * DISTANCE;
                 var y = high[index] * 350 / (max * 7)
@@ -217,7 +218,7 @@ var page = {
             context.moveTo(x, 380)
             context.beginPath();
             context.setStrokeStyle('#FF6969FF')
-            for( index = 0; index < low.length; index++ )
+            for( index = 0; index < low.length; index++)
             {
                 var x = 60 + DISTANCE/2 + index * DISTANCE;
                 var y = low[index] * 350 / (max * 7)
@@ -230,7 +231,7 @@ var page = {
             // Value
             context.setTextAlign('center')
             context.setFillStyle('white')
-            for( index = 0; index < 3; index++ )
+            for( index = 0; index < 3; index++)
             {
                 var x = 60 + DISTANCE/2 + index * DISTANCE;
                 var y = high[index] * 350 / (max * 7)
@@ -248,8 +249,10 @@ var page = {
                        
         }
     },
-    onUpdate : function(){		//根据json_obj中的数据，来设定对应Label的值
-        for(var i = 0; i < 3; i++){
+    onUpdate : function()
+    {		//根据json_obj中的数据，来设定对应Label的值
+        for(var i = 0; i < 3; i++)
+	{
             high[i]   = 0;
             low[i]    = 0;
             City_name = json_obj.results[0].location.name
@@ -266,9 +269,10 @@ var page = {
             this.setData({label2: { value : ctxw, refresh : true}});
             ani_flg = 0;
         }
-	},
+    },
     
-    getSkyInfo: function(e) {
+    getSkyInfo: function(e) 
+    {
 	var thiz = this;
 	var str =0;
 	url_w = s1+city+s2+day+s3
@@ -287,11 +291,12 @@ var page = {
 		fail: function(){
 			console.log('request failed')
 		}
-		});
+	    });
 	},
 	
 	
-	onChange : function(e){
+	onChange : function(e)
+	{
 	    console.log(e.detail.value)
 	    console.log(CITIES[e.detail.value])
 	    dly = 0;
@@ -306,7 +311,7 @@ var page = {
             //this.onUpdate()
             this.getSkyInfo()
         }
-	}
+    }
 };
 
 Page(page);

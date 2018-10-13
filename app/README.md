@@ -1,3 +1,3 @@
 # Application for JavaScript
-- rtt gui
+- RT-Thread GUI PersimmonUI
 - game 2048
